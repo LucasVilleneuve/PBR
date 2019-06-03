@@ -138,7 +138,6 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Sphere2.cpp" />
     <ClCompile Include="src\MyGlWindow.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
@@ -161,7 +160,6 @@
     <ClInclude Include="includes\Stbi\stb_image.h" />
     <ClInclude Include="includes\Viewer\Viewer.h" />
     <ClInclude Include="Object.hh" />
-    <ClInclude Include="Sphere2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\phong.frag" />

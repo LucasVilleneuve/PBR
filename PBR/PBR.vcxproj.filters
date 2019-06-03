@@ -69,9 +69,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -114,9 +111,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Object.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\ModelView.h">
