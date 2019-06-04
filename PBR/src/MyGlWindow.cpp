@@ -7,7 +7,7 @@
 #include "MyGlWindow.hh"
 
 MyGlWindow::MyGlWindow(int width, int height)
-	: _width(width), _height(height), _light("", 1)
+	: _width(width), _height(height)
 {
 	glm::vec3 viewPoint(DEFAULT_VIEW_POINT[0], DEFAULT_VIEW_POINT[1], DEFAULT_VIEW_POINT[2]);
 	glm::vec3 viewCenter(DEFAULT_VIEW_CENTER[0], DEFAULT_VIEW_CENTER[1], DEFAULT_VIEW_CENTER[2]);
@@ -19,9 +19,7 @@ MyGlWindow::MyGlWindow(int width, int height)
 	this->init();
 }
 
-MyGlWindow::~MyGlWindow()
-{
-}
+MyGlWindow::~MyGlWindow() = default;
 
 void MyGlWindow::init()
 {
@@ -29,9 +27,12 @@ void MyGlWindow::init()
 
 	_wall = std::make_unique<SphereWall>(*_shader);
 
+	_lights.push_back(Light(0, *_shader, glm::vec3(5, 5, -20), lightColor));
+	_lights.push_back(Light(1, *_shader, glm::vec3(5, 20, -20), lightColor));
+	_lights.push_back(Light(2, *_shader, glm::vec3(20, 20, -20), lightColor));
+	_lights.push_back(Light(3, *_shader, glm::vec3(20, 5, -20), lightColor));
+
 	_shader->use();
-	_shader->addUniform("LightPosition");
-	_shader->addUniform("LightColor");
 	_shader->addUniform("Metallic");
 	_shader->addUniform("Roughness");
 	//_shader->addUniform("Kd");
@@ -47,8 +48,12 @@ void MyGlWindow::init()
 
 	_shader->addUniform("GammaCorr");
 
-	_shader->setVec3("LightPosition", lightPosition);
-	_shader->setVec3("LightColor", glm::vec3(10000.0f));
+	for (int i = 0; i < _lights.size(); ++i)
+	{
+		_shader->addUniform("LightPositions[" + std::to_string(i) + "]");
+		_shader->addUniform("LightColors[" + std::to_string(i) + "]");
+	}
+
 	//_shader->setVec3("Ka", glm::vec3(0.3, 0.3, 0.3));
 	//_shader->setVec3("Ks", glm::vec3(1.0, 1.0, 1.0));
 	//_shader->setFloat("shininess", 12.0);
@@ -89,23 +94,17 @@ void MyGlWindow::draw()
 
 	_shader->use();
 	_shader->setMat4("Projection", projection);
-	_shader->setVec3("LightPosition", glm::vec3(view * glm::vec4(lightPosition, 1.0)));
 	_shader->setVec3("CamPos", glm::mat3(view) * eye);
 
 	_wall->draw(view);
 
-	Model model;
-	model.glTranslate(lightPosition.x, lightPosition.y, lightPosition.z);
+	for (Light &light : _lights)
+	{
+		light.setColor(lightColor);
+		light.draw(view);
+	}
 
-	mview = view * model.getMatrix();
-	imvp = glm::inverse(mview);
-	nmat = glm::mat3(glm::transpose(imvp));
-	_shader->setMat4("ModelView", mview);
-	_shader->setMat3("NormalMatrix", nmat);
-	//_shader->setVec3("Kd", _light.getKd());
 	_shader->setBool("GammaCorr", gammaCorr);
-
-	_light.draw();
 
 	_shader->disable();
 }

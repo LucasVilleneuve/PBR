@@ -157,6 +157,8 @@ void Sphere::setup()
 
 void Sphere::loadTexture(const std::string &texturePath)
 {
+	if (texturePath.empty()) return;
+
 	glActiveTexture(GL_TEXTURE0);
 	glGenTextures(1, &_tex);
 

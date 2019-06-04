@@ -4,8 +4,8 @@
 #include <vector>
 #include "Shader.hh"
 #include "Viewer/Viewer.h"
-#include "Sphere.hh"
 #include "SphereWall.hh"
+#include "Light.hh"
 #include "Model.h"
 
 class MyGlWindow
@@ -29,19 +29,17 @@ private:
 	std::unique_ptr<Shader> _shader;
 	float bkgColor[3] = { 0.2f, 0.2f, 0.2f };
 
-	// TODO Change so we can use multiple lights
 public:
 	// TODO Change to private
-	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, -30);
+	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, -30); // TODO Deprecated
+	glm::vec3 lightColor = glm::vec3(1000.0f);
 	bool gammaCorr = false;
 private:
 	std::unique_ptr<SphereWall> _wall;
-	Sphere _light;
+	std::vector<Light> _lights;
 
-	std::vector<Sphere> _spheres;
-
-	const float DEFAULT_VIEW_POINT[3] = { 10, 10, 10 };
-	const float DEFAULT_VIEW_CENTER[3] = { 0, 0, 0 };
+	const float DEFAULT_VIEW_POINT[3] = { 12.5, 15, -20 };
+	const float DEFAULT_VIEW_CENTER[3] = { 12.5, 12.5, 0 };
 	const float DEFAULT_UP_VECTOR[3] = { 0, 1, 0 };
 
 	void init();
