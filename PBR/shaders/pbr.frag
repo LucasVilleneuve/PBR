@@ -11,6 +11,7 @@ uniform vec3 CamPos;
 
 uniform float Roughness;
 uniform float Metallic;
+uniform bool GammaCorr;
 //uniform vec3 Kd;
 //uniform vec3 Ka;
 //uniform vec3 Ks;
@@ -103,9 +104,12 @@ void main()
 
 	vec3 ambient = vec3(0.03) * albedo * ao;
     vec3 color = ambient + lo;
-	
-	color = HDRToneMapping(color);
-	color = GammaCorrection(color);
+
+	if (GammaCorr)
+	{
+		color = HDRToneMapping(color);
+		color = GammaCorrection(color);
+	}
 
 	finalColor = vec4(color, 1.0);
 }

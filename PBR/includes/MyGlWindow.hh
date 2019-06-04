@@ -33,6 +33,7 @@ private:
 public:
 	// TODO Change to private
 	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, -30);
+	bool gammaCorr = false;
 private:
 	std::unique_ptr<SphereWall> _wall;
 	Sphere _light;

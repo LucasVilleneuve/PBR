@@ -137,7 +137,6 @@ int main(int, char**)
 	GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
-		//Problem: glewInit failed, something is seriously wrong.
 		std::cout << "glewInit failed, aborting." << std::endl;
 		glfwTerminate();
 		return -1;
@@ -159,6 +158,7 @@ int main(int, char**)
 	int frameCount = 0;
 	double lastTime = 0;
 	float lightPos[3] = { win->lightPosition.x, win->lightPosition.y, win->lightPosition.z };
+	bool gammaCorr = false;
 
 	glfwSetWindowSizeCallback(window, window_size_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
@@ -180,6 +180,11 @@ int main(int, char**)
 			ImGui::SliderFloat3("Light Position", lightPos, -30.0f, 30.0f, "v = %.1f");
 			{
 				win->lightPosition = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
+			}
+
+			ImGui::Checkbox("Gamma Correction", &gammaCorr);
+			{
+				win->gammaCorr = gammaCorr;
 			}
 
 			ImGui::End();

@@ -45,6 +45,8 @@ void MyGlWindow::init()
 	_shader->addUniform("ModelView");
 	_shader->addUniform("CamPos");
 
+	_shader->addUniform("GammaCorr");
+
 	_shader->setVec3("LightPosition", lightPosition);
 	_shader->setVec3("LightColor", glm::vec3(10000.0f));
 	//_shader->setVec3("Ka", glm::vec3(0.3, 0.3, 0.3));
@@ -101,6 +103,7 @@ void MyGlWindow::draw()
 	_shader->setMat4("ModelView", mview);
 	_shader->setMat3("NormalMatrix", nmat);
 	//_shader->setVec3("Kd", _light.getKd());
+	_shader->setBool("GammaCorr", gammaCorr);
 
 	_light.draw();
 
