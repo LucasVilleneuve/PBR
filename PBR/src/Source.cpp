@@ -177,7 +177,7 @@ int main(int, char**)
 		if (ImGui::Begin("Control Panel"), window_flags) {
 			//ImGui::SetWindowSize(ImVec2(400, 200));
 
-			ImGui::SliderFloat3("Light Position", lightPos, -10.0f, 10.0f, "v = %.1f");
+			ImGui::SliderFloat3("Light Position", lightPos, -30.0f, 30.0f, "v = %.1f");
 			{
 				win->lightPosition = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
 			}

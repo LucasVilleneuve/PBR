@@ -69,6 +69,9 @@
     <ClCompile Include="Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SphereWall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -113,7 +116,10 @@
     <ClInclude Include="Object.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\ModelView.h">
+    <ClInclude Include="includes\SphereWall.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,6 +128,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\phong.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\pbr.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\pbr.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

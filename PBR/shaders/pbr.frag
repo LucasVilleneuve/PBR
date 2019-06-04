@@ -9,6 +9,8 @@ uniform vec3 LightColor;
 
 uniform vec3 CamPos;
 
+uniform float Roughness;
+uniform float Metallic;
 //uniform vec3 Kd;
 //uniform vec3 Ka;
 //uniform vec3 Ks;
@@ -50,11 +52,15 @@ float GeometrySmith(float NdotV, float NdotL, float roughness)
     return ggx1 * ggx2;
 }
 
-vec3 CookTerranceBRDF(float NdotH, float NdotV, float NdotL, float HdotV, float roughness, vec3 f0)
+vec3 HDRToneMapping(vec3 color)
 {
-	return DistributionGGX(NdotH, roughness) *
-	GeometrySmith(NdotV, NdotL, roughness) *
-	FresnelSchlick(HdotV, f0);
+	return color / (color + vec3(1.0));
+}
+
+vec3 GammaCorrection(vec3 color)
+{
+	float gamma = 2.2;
+	return pow(color, vec3(1.0 / gamma)); 
 }
 
 void main()
@@ -68,13 +74,11 @@ void main()
 	float NdotH = max(dot(N, H), 0.0);
 	float HdotV = max(dot(H, V), 0.0);
 
-	float roughness = 0.5;
 	vec3 albedo = vec3(1.0, 0.0, 0.0);
-	float metallic = 0.0;
 	float ao = 1.0;
 
 	vec3 f0 = vec3(0.04);
-	f0 = mix(f0, albedo, metallic);
+	f0 = mix(f0, albedo, Metallic);
 
 	vec3 lo = vec3(0.0);
 
@@ -84,13 +88,13 @@ void main()
     vec3 radiance = LightColor * attenuation;
 	
 	// cook-torrance brdf
-	float d = DistributionGGX(NdotH, roughness);
-	float g = GeometrySmith(NdotV, NdotL, roughness);
+	float d = DistributionGGX(NdotH, Roughness);
+	float g = GeometrySmith(NdotV, NdotL, Roughness);
 	vec3 f = FresnelSchlick(HdotV, f0);
         
     vec3 kS = f;
     vec3 kD = vec3(1.0) - kS;
-    kD *= 1.0 - metallic;	  
+    kD *= 1.0 - Metallic;
 
     vec3 specular = (d * g * f) / max(4.0 * NdotV * NdotL, 0.001);
 
@@ -100,9 +104,8 @@ void main()
 	vec3 ambient = vec3(0.03) * albedo * ao;
     vec3 color = ambient + lo;
 	
-//    color = color / (color + vec3(1.0));
-//    color = pow(color, vec3(1.0/2.2));  
-//
+	color = HDRToneMapping(color);
+	color = GammaCorrection(color);
 
 	finalColor = vec4(color, 1.0);
 }

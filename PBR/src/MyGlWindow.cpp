@@ -25,36 +25,31 @@ MyGlWindow::~MyGlWindow()
 
 void MyGlWindow::init()
 {
-	_shader = std::make_unique<Shader>("shaders/phong.vert", "shaders/phong.frag");
+	_shader = std::make_unique<Shader>("shaders/pbr.vert", "shaders/pbr.frag");
 
-	unsigned int numberOfSpheres = 3;
-	Sphere basicSphere("", 1);
-	basicSphere.setKd(glm::vec3(0.8, 0.2, 0.2));
-	_light.setKd(glm::vec3(1.0));
-
-	for (int i = 0; i < numberOfSpheres; ++i)
-	{
-		_spheres.push_back(basicSphere);
-	}
+	_wall = std::make_unique<SphereWall>(*_shader);
 
 	_shader->use();
 	_shader->addUniform("LightPosition");
 	_shader->addUniform("LightColor");
-	_shader->addUniform("Kd");
-	_shader->addUniform("Ka");
-	_shader->addUniform("Ks");
-	_shader->addUniform("shininess");
+	_shader->addUniform("Metallic");
+	_shader->addUniform("Roughness");
+	//_shader->addUniform("Kd");
+	//_shader->addUniform("Ka");
+	//_shader->addUniform("Ks");
+	//_shader->addUniform("shininess");
 	_shader->addUniform("Projection");
-	_shader->addUniform("View");
+	//_shader->addUniform("View");
 	_shader->addUniform("Model");
 	_shader->addUniform("NormalMatrix");
 	_shader->addUniform("ModelView");
+	_shader->addUniform("CamPos");
 
 	_shader->setVec3("LightPosition", lightPosition);
-	_shader->setVec3("LightColor", glm::vec3(0.8, 0.8, 0.8));
-	_shader->setVec3("Ka", glm::vec3(0.3, 0.3, 0.3));
-	_shader->setVec3("Ks", glm::vec3(1.0, 1.0, 1.0));
-	_shader->setFloat("shininess", 12.0);
+	_shader->setVec3("LightColor", glm::vec3(10000.0f));
+	//_shader->setVec3("Ka", glm::vec3(0.3, 0.3, 0.3));
+	//_shader->setVec3("Ks", glm::vec3(1.0, 1.0, 1.0));
+	//_shader->setFloat("shininess", 12.0);
 	_shader->disable();
 }
 
@@ -86,8 +81,6 @@ void MyGlWindow::draw()
 	glm::mat4 view = glm::lookAt(eye, look, up);
 	glm::mat4 projection = glm::perspective(45.0f, (float)_width / (float)_height, 0.1f, 500.0f);
 
-	Model m;
-	glm::mat4 model = glm::mat4(1.0f);
 	glm::mat4 mview;
 	glm::mat4 imvp;
 	glm::mat3 nmat;
@@ -95,39 +88,19 @@ void MyGlWindow::draw()
 	_shader->use();
 	_shader->setMat4("Projection", projection);
 	_shader->setVec3("LightPosition", glm::vec3(view * glm::vec4(lightPosition, 1.0)));
+	_shader->setVec3("CamPos", glm::mat3(view) * eye);
 
-	float xOffset = 0;
-	for (auto sphere : _spheres)
-	{
-		m.glPushMatrix();
-		m.glTranslate(xOffset, 0, 0);
-		model = m.getMatrix();
-		m.glPopMatrix();
+	_wall->draw(view);
 
-		mview = view * model;
-		imvp = glm::inverse(mview);
-		nmat = glm::mat3(glm::transpose(imvp));
+	Model model;
+	model.glTranslate(lightPosition.x, lightPosition.y, lightPosition.z);
 
-		_shader->setVec3("Kd", sphere.getKd());
-		_shader->setMat4("ModelView", mview);
-		_shader->setMat3("NormalMatrix", nmat);
-
-		sphere.draw();
-
-		xOffset += 2.5;
-	}
-
-	m.glPushMatrix();
-	m.glTranslate(lightPosition.x, lightPosition.y, lightPosition.z);
-	model = m.getMatrix();
-	m.glPopMatrix();
-
-	mview = view * model;
+	mview = view * model.getMatrix();
 	imvp = glm::inverse(mview);
 	nmat = glm::mat3(glm::transpose(imvp));
 	_shader->setMat4("ModelView", mview);
 	_shader->setMat3("NormalMatrix", nmat);
-	_shader->setVec3("Kd", _light.getKd());
+	//_shader->setVec3("Kd", _light.getKd());
 
 	_light.draw();
 

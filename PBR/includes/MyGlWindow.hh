@@ -5,7 +5,8 @@
 #include "Shader.hh"
 #include "Viewer/Viewer.h"
 #include "Sphere.hh"
-#include "ModelView.h"
+#include "SphereWall.hh"
+#include "Model.h"
 
 class MyGlWindow
 {
@@ -30,8 +31,10 @@ private:
 
 	// TODO Change so we can use multiple lights
 public:
-	glm::vec3 lightPosition = glm::vec3(0, 10, -10);
+	// TODO Change to private
+	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, -30);
 private:
+	std::unique_ptr<SphereWall> _wall;
 	Sphere _light;
 
 	std::vector<Sphere> _spheres;

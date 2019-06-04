@@ -142,6 +142,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
+    <ClCompile Include="src\SphereWall.cpp" />
     <ClCompile Include="src\Viewer\Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,15 +154,18 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="includes\ModelView.h" />
+    <ClInclude Include="includes\Model.h" />
     <ClInclude Include="includes\MyGlWindow.hh" />
     <ClInclude Include="includes\Shader.hh" />
     <ClInclude Include="includes\Sphere.hh" />
+    <ClInclude Include="includes\SphereWall.hh" />
     <ClInclude Include="includes\Stbi\stb_image.h" />
     <ClInclude Include="includes\Viewer\Viewer.h" />
     <ClInclude Include="Object.hh" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\pbr.frag" />
+    <None Include="shaders\pbr.vert" />
     <None Include="shaders\phong.frag" />
     <None Include="shaders\phong.vert" />
   </ItemGroup>
