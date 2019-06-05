@@ -22,11 +22,9 @@ public:
 	Model getModel() const { return _model; }
 	void setModel(Model model) { _model = model; }
 	float getRoughness() const { return _roughness; }
-	// TODO Clamp between 0 and 1
-	void setRoughness(float roughness) { _roughness = roughness; }
+	void setRoughness(float roughness) { _roughness = glm::clamp(roughness, 0.025f, 1.0f); }
 	float getMetallic() const { return _metallic; }
-	// TODO Clamp between 0 and 1
-	void setMetallic(float metallic) { _metallic = metallic; }
+	void setMetallic(float metallic) { _metallic = glm::clamp(metallic, 0.0f, 1.0f); }
 
 private:
 	/* Parameters */

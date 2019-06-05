@@ -31,14 +31,14 @@ private:
 
 public:
 	// TODO Change to private
-	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, -30); // TODO Deprecated
+	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, 30); // TODO Deprecated
 	glm::vec3 lightColor = glm::vec3(1000.0f);
 	bool gammaCorr = false;
 private:
 	std::unique_ptr<SphereWall> _wall;
 	std::vector<Light> _lights;
 
-	const float DEFAULT_VIEW_POINT[3] = { 12.5, 15, -20 };
+	const float DEFAULT_VIEW_POINT[3] = { 12.5, 15, 20 };
 	const float DEFAULT_VIEW_CENTER[3] = { 12.5, 12.5, 0 };
 	const float DEFAULT_UP_VECTOR[3] = { 0, 1, 0 };
 

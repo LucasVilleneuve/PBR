@@ -32,12 +32,12 @@ float DistributionGGX(float NdotH, float roughness)
 
     float denom = NdotH2 * (a2 - 1.0) + 1.0;
 	
-    return a2 / max(PI * denom * denom, 0.001);
+    return a2 / (PI * denom * denom);
 }
 
 float GeometrySchlickGGX(float NdotV, float k)
 {
-    return NdotV / max(NdotV * (1.0 - k) + k, 0.001);
+    return NdotV / (NdotV * (1.0 - k) + k);
 }
 
 float GeometrySmith(float NdotV, float NdotL, float roughness)
@@ -68,7 +68,7 @@ void main()
 	vec3 V = normalize(CamPos - Position);
 	float NdotV = max(dot(N, V), 0.0);
 
-	vec3 albedo = vec3(1.0, 0.0, 0.0);
+	vec3 albedo = vec3(0.8, 0.0, 0.0);
 	float ao = 1.0;
 
 	vec3 f0 = vec3(0.04);

@@ -27,10 +27,10 @@ void MyGlWindow::init()
 
 	_wall = std::make_unique<SphereWall>(*_shader);
 
-	_lights.push_back(Light(0, *_shader, glm::vec3(5, 5, -20), lightColor));
-	_lights.push_back(Light(1, *_shader, glm::vec3(5, 20, -20), lightColor));
-	_lights.push_back(Light(2, *_shader, glm::vec3(20, 20, -20), lightColor));
-	_lights.push_back(Light(3, *_shader, glm::vec3(20, 5, -20), lightColor));
+	_lights.push_back(Light(0, *_shader, glm::vec3(5, 5, 20), lightColor));
+	_lights.push_back(Light(1, *_shader, glm::vec3(5, 20, 20), lightColor));
+	_lights.push_back(Light(2, *_shader, glm::vec3(20, 20, 20), lightColor));
+	_lights.push_back(Light(3, *_shader, glm::vec3(20, 5, 20), lightColor));
 
 	_shader->use();
 	_shader->addUniform("Metallic");
