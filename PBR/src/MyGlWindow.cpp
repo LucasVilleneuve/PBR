@@ -27,14 +27,18 @@ void MyGlWindow::init()
 
 	_wall = std::make_unique<SphereWall>(*_shader);
 
-	_lights.push_back(Light(0, *_shader, glm::vec3(5, 5, 20), lightColor));
-	_lights.push_back(Light(1, *_shader, glm::vec3(5, 20, 20), lightColor));
-	_lights.push_back(Light(2, *_shader, glm::vec3(20, 20, 20), lightColor));
-	_lights.push_back(Light(3, *_shader, glm::vec3(20, 5, 20), lightColor));
+	_lights.push_back(Light(0, *_shader, glm::vec3(0, 0, 20), lightColor));
+	_lights.push_back(Light(1, *_shader, glm::vec3(7.5, 7.5, 20), lightColor));
+	_lights.push_back(Light(2, *_shader, glm::vec3(7.5, 0, 20), lightColor));
+	_lights.push_back(Light(3, *_shader, glm::vec3(0, 7.5, 20), lightColor));
 
 	_shader->use();
-	_shader->addUniform("Metallic");
+	_shader->addUniform("MetallicMap");
+	_shader->addUniform("RoughnessMap");
+	_shader->addUniform("AlbedoMap");
+	_shader->addUniform("NormalMap");
 	_shader->addUniform("Roughness");
+	_shader->addUniform("Metallic");
 	//_shader->addUniform("Kd");
 	//_shader->addUniform("Ka");
 	//_shader->addUniform("Ks");
@@ -79,8 +83,10 @@ void MyGlWindow::draw()
 	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, _width, _height);
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+
+	glEnable(GL_TEXTURE_2D);
 
 	glm::vec3 eye = _viewer->getViewPoint();
 	glm::vec3 look = _viewer->getViewCenter();
@@ -94,7 +100,7 @@ void MyGlWindow::draw()
 
 	_shader->use();
 	_shader->setMat4("Projection", projection);
-	_shader->setVec3("CamPos", glm::mat3(view) * eye);
+	_shader->setVec3("CamPos", glm::mat3(view) * eye); // TODO Should we multiply by the view matrix ?
 
 	_wall->draw(view);
 

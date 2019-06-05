@@ -21,10 +21,19 @@ public:
 	void setKd(glm::vec3 kd) { _kd = kd; }
 	Model getModel() const { return _model; }
 	void setModel(Model model) { _model = model; }
-	float getRoughness() const { return _roughness; }
-	void setRoughness(float roughness) { _roughness = glm::clamp(roughness, 0.025f, 1.0f); }
-	float getMetallic() const { return _metallic; }
-	void setMetallic(float metallic) { _metallic = glm::clamp(metallic, 0.0f, 1.0f); }
+	// TODO Deprecated
+	//void setRoughness(float roughness) { _roughness = glm::clamp(roughness, 0.025f, 1.0f); }
+	//void setMetallic(float metallic) { _metallic = glm::clamp(metallic, 0.0f, 1.0f); }
+
+	GLuint getAlbedo() const { return _albedo; }
+	void setAlbedo(GLuint albedo) { _albedo = albedo; }
+	GLuint getRoughness() const { return _roughness; }
+	void setRoughness(GLuint roughness) { _roughness = roughness; }
+	GLuint getMetallic() const { return _metallic; }
+	void setMetallic(GLuint metallic) { _albedo = metallic; }
+
+	// TODO Change that
+	static GLuint loadTexture(const std::string &texturePath);
 
 private:
 	/* Parameters */
@@ -34,9 +43,12 @@ private:
 	GLuint _stacks;
 
 	Model _model;
-	glm::vec3 _kd;
-	float _roughness;
-	float _metallic;
+	glm::vec3 _kd; // TODO Deprecated
+	//float _roughness; // TODO Deprecated
+	//float _metallic; // TODO Deprecated
+	GLuint _albedo;
+	GLuint _roughness;
+	GLuint _metallic;
 
 	std::vector<glm::vec3> _positions;
 	std::vector<glm::vec3> _normals;
@@ -47,10 +59,9 @@ private:
 	GLuint _vboPositions;
 	GLuint _vboNormals;
 	GLuint _ibo;
-	GLuint _tex;
+	//GLuint _tex; // TODO Deprecated
 
 	void generateVertices();
 
-	void loadTexture(const std::string &texturePath);
 	void setup();
 };
