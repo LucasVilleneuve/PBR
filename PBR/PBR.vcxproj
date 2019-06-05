@@ -76,10 +76,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Lucas\source\repos\PBR\PBR;C:\Users\Lucas\source\repos\PBR\PBR\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Lucas\source\repos\PBR\PBR\src;C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -89,10 +89,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Lucas\source\repos\PBR\PBR;C:\Users\Lucas\source\repos\PBR\PBR\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Lucas\source\repos\PBR\PBR\src;C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -104,12 +104,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Lucas\source\repos\PBR\PBR;C:\Users\Lucas\source\repos\PBR\PBR\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Lucas\source\repos\PBR\PBR\src;C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -121,12 +121,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Lucas\source\repos\PBR\PBR;C:\Users\Lucas\source\repos\PBR\PBR\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\includes;C:\Graphics\Tools\glm;C:\Graphics\Tools\glfw\include;C:\Graphics\Tools\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Lucas\source\repos\PBR\PBR\src;C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Graphics\Tools\glew\lib;C:\Graphics\Tools\glfw\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
