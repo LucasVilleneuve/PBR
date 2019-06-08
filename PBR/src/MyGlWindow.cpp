@@ -116,7 +116,7 @@ void MyGlWindow::draw()
 
 	_shader->disable();
 
-	glDisable(GL_CULL_FACE);
+	glDepthFunc(GL_LEQUAL);
 
 	_cubeMap->draw(projection, view);
 }
