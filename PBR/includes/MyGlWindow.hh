@@ -7,6 +7,7 @@
 #include "SphereWall.hh"
 #include "Light.hh"
 #include "Model.h"
+#include "CubeMap.hh"
 
 class MyGlWindow
 {
@@ -25,8 +26,9 @@ public:
 private:
 	int _width;
 	int _height;
-	std::unique_ptr<Viewer> _viewer;
-	std::unique_ptr<Shader> _shader;
+	std::unique_ptr<Viewer>		_viewer;
+	std::unique_ptr<Shader>		_shader;
+	std::unique_ptr<CubeMap>	_cubeMap;
 	float bkgColor[3] = { 0.2f, 0.2f, 0.2f };
 
 public:

@@ -15,6 +15,7 @@ MyGlWindow::MyGlWindow(int width, int height)
 
 	float aspect = (width / (float)height);
 	_viewer = std::make_unique<Viewer>(viewPoint, viewCenter, upVector, 45.0f, aspect);
+	_cubeMap = std::make_unique<CubeMap>();
 
 	this->init();
 }
@@ -58,6 +59,7 @@ void MyGlWindow::init()
 	//_shader->setVec3("Ks", glm::vec3(1.0, 1.0, 1.0));
 	//_shader->setFloat("shininess", 12.0);
 	_shader->disable();
+	_cubeMap->drawOnFBO();
 }
 
 void MyGlWindow::resize(int width, int height)
@@ -81,6 +83,7 @@ void MyGlWindow::draw()
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	glDepthFunc(GL_LEQUAL);
 
 	glm::vec3 eye = _viewer->getViewPoint();
 	glm::vec3 look = _viewer->getViewCenter();
@@ -107,4 +110,8 @@ void MyGlWindow::draw()
 	_shader->setBool("GammaCorr", gammaCorr);
 
 	_shader->disable();
+
+	glDisable(GL_CULL_FACE);
+
+	_cubeMap->draw(projection, view);
 }

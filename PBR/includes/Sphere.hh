@@ -15,7 +15,6 @@ public:
 	~Sphere() = default;
 
 	void draw();
-	void gen();
 
 	glm::vec3 getKd() const { return _kd; }
 	void setKd(glm::vec3 kd) { _kd = kd; }

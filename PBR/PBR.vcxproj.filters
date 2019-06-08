@@ -72,6 +72,12 @@
     <ClCompile Include="src\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CubeMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -125,6 +131,12 @@
     <ClInclude Include="includes\Light.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CubeMap.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Cube.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\phong.frag">
@@ -137,6 +149,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\pbr.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\cubeMap.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\cubeMap.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\background.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\background.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
