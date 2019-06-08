@@ -30,7 +30,6 @@ void Sphere::generateVertices()
 	GLfloat thetaFac = glm::two_pi<float>() / _slices;
 	GLfloat phiFac = glm::pi<float>() / _stacks;
 	GLfloat nx, ny, nz, s, t;
-	GLuint idx = 0, tIdx = 0;
 
 	for (GLuint i = 0; i <= _slices; i++)
 	{
@@ -44,31 +43,14 @@ void Sphere::generateVertices()
 			nx = sinf(phi) * cosf(theta);
 			ny = sinf(phi) * sinf(theta);
 			nz = cosf(phi);
-			_positions.push_back(glm::vec4(_radius * nx, _radius * ny, _radius * nz, 1.0));
-			//verts[idx] = _radius * nx;
-			//verts[idx + 1] = _radius * ny;
-			//verts[idx + 2] = _radius * nz;
-			_normals.push_back(glm::vec3(nx, ny, nz));
-			//norms[idx] = nx;
-			//norms[idx + 1] = ny;
-			//norms[idx + 2] = nz;
-			idx += 3;
 
+			_positions.push_back(glm::vec4(_radius * nx, _radius * ny, _radius * nz, 1.0));
+			_normals.push_back(glm::vec3(nx, ny, nz));
 			_uvs.push_back(glm::vec2(s, t));
-			//tex[tIdx] = s;
-			//tex[tIdx + 1] = t;
-			tIdx += 2;
 		}
 	}
 
-	for (GLuint i = 0; i <= idx; i += 3)
-	{
-		//_positions.push_back(glm::vec4(verts[i], verts[i + 1], verts[i + 2], 1.0f));
-		//_normals.push_back(glm::vec3(norms[i], norms[i + 1], norms[i + 2]));
-	}
-
 	// Generate the element list
-	idx = 0;
 	for (GLuint i = 0; i < _slices; i++)
 	{
 		GLuint stackStart = i * (_stacks + 1);
@@ -81,20 +63,12 @@ void Sphere::generateVertices()
 				_indices.push_back(stackStart);
 				_indices.push_back(stackStart + 1);
 				_indices.push_back(nextStackStart + 1);
-				//el[idx] = stackStart;
-				//el[idx + 1] = stackStart + 1;
-				//el[idx + 2] = nextStackStart + 1;
-				idx += 3;
 			}
 			else if (j == _stacks - 1)
 			{
 				_indices.push_back(stackStart + j);
 				_indices.push_back(stackStart + j + 1);
 				_indices.push_back(nextStackStart + j);
-				//el[idx] = stackStart + j;
-				//el[idx + 1] = stackStart + j + 1;
-				//el[idx + 2] = nextStackStart + j;
-				idx += 3;
 			}
 			else {
 				_indices.push_back(stackStart + j);
@@ -103,21 +77,9 @@ void Sphere::generateVertices()
 				_indices.push_back(nextStackStart + j);
 				_indices.push_back(stackStart + j);
 				_indices.push_back(nextStackStart + j + 1);
-				//el[idx] = stackStart + j;
-				//el[idx + 1] = stackStart + j + 1;
-				//el[idx + 2] = nextStackStart + j + 1;
-				//el[idx + 3] = nextStackStart + j;
-				//el[idx + 4] = stackStart + j;
-				//el[idx + 5] = nextStackStart + j + 1;
-				idx += 6;
 			}
 		}
 	}
-
-	//for (GLuint i = 0; i <= idx; i++)
-	//{
-	//	_indices.push_back(el[i]);
-	//}
 }
 
 void Sphere::setup()
@@ -150,20 +112,16 @@ void Sphere::setup()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * _indices.size(), _indices.data(), GL_STATIC_DRAW);
 
-	this->loadTexture(_texFileName);
-
 	glBindVertexArray(0); // unbinding
 }
 
-void Sphere::loadTexture(const std::string &texturePath)
+GLuint Sphere::loadTexture(const std::string &texturePath)
 {
-	if (texturePath.empty()) return;
-
-	glActiveTexture(GL_TEXTURE0);
-	glGenTextures(1, &_tex);
+	GLuint texId;
+	glGenTextures(1, &texId);
 
 	int width, height, channel;
-	unsigned char *data = stbi_load(_texFileName.c_str(), &width, &height, &channel, 0);
+	unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &channel, 0);
 
 	if (data)
 	{
@@ -175,22 +133,25 @@ void Sphere::loadTexture(const std::string &texturePath)
 		else if (channel == 4)
 			format = GL_RGBA;
 
-		glBindTexture(GL_TEXTURE_2D, _tex);
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, texId);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
 			GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(data);
 	}
 	else
 	{
 		std::cout << "Texture failed to load at path: " << texturePath.c_str() << std::endl;
 	}
 
-	stbi_image_free(data);
+	return texId;
 }
 
 void Sphere::draw()
@@ -204,10 +165,8 @@ void Sphere::draw()
 
 	//glUniform1i(shader->uniform("Tex1"), 0);
 
-	glBindTexture(GL_TEXTURE_2D, _tex);  //activate texture
+	// Activate textures
 
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
-
-	glBindTexture(GL_TEXTURE_2D, 0);  //de-activate
 }

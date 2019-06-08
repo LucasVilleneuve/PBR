@@ -14,10 +14,33 @@ uniform vec3 CamPos;
 uniform float Roughness;
 uniform float Metallic;
 uniform bool GammaCorr;
+uniform sampler2D AlbedoMap;
+uniform sampler2D NormalMap;
+uniform sampler2D MetallicMap;
+uniform sampler2D RoughnessMap;
+uniform sampler2D AoMap;
 
 out vec4 finalColor;
 
 const float PI = 3.1415926535897932384626433832795;
+const float GAMMA = 2.2;
+
+vec3 GetNormalFromNormalMap()
+{
+    vec3 tangentNormal = texture(NormalMap, TexCoords).xyz * 2.0 - 1.0;
+
+    vec3 Q1  = dFdx(Position);
+    vec3 Q2  = dFdy(Position);
+    vec2 st1 = dFdx(TexCoords);
+    vec2 st2 = dFdy(TexCoords);
+
+    vec3 N   = normalize(Normal);
+    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+    vec3 B  = -normalize(cross(N, T));
+    mat3 TBN = mat3(T, B, N);
+
+    return normalize(TBN * tangentNormal);
+}
 
 vec3 FresnelSchlick(float cosTheta, vec3 f0)
 {
@@ -32,12 +55,12 @@ float DistributionGGX(float NdotH, float roughness)
 
     float denom = NdotH2 * (a2 - 1.0) + 1.0;
 	
-    return a2 / max(PI * denom * denom, 0.001);
+    return a2 / (PI * denom * denom);
 }
 
 float GeometrySchlickGGX(float NdotV, float k)
 {
-    return NdotV / max(NdotV * (1.0 - k) + k, 0.001);
+    return NdotV / (NdotV * (1.0 - k) + k);
 }
 
 float GeometrySmith(float NdotV, float NdotL, float roughness)
@@ -58,21 +81,29 @@ vec3 HDRToneMapping(vec3 color)
 
 vec3 GammaCorrection(vec3 color)
 {
-	float gamma = 2.2;
-	return pow(color, vec3(1.0 / gamma)); 
+	return pow(color, vec3(1.0 / GAMMA)); 
 }
 
 void main()
-{   
-	vec3 N = normalize(Normal);
+{
+	vec3 albedo = pow(texture(AlbedoMap, TexCoords).rgb, vec3(GAMMA));
+    vec3 normal = GetNormalFromNormalMap();
+	float metallic = texture(MetallicMap, TexCoords).r;
+    float roughness = texture(RoughnessMap, TexCoords).r;
+//    float ao        = texture(aoMap, TexCoords).r;
+
+//	float metallic = Metallic;
+//	float roughness = Roughness;
+
+	vec3 N = normalize(normal);
 	vec3 V = normalize(CamPos - Position);
 	float NdotV = max(dot(N, V), 0.0);
 
-	vec3 albedo = vec3(1.0, 0.0, 0.0);
+//	vec3 albedo = vec3(0.8, 0.0, 0.0);
 	float ao = 1.0;
 
 	vec3 f0 = vec3(0.04);
-	f0 = mix(f0, albedo, Metallic);
+	f0 = mix(f0, albedo, metallic);
 
 	vec3 lo = vec3(0.0);
 
@@ -86,19 +117,19 @@ void main()
 
 		// calculate per-light radiance
 		float dist = length(LightPositions[i] - Position);
-		float attenuation = 1.0 / max(dist * dist, 0.001);
+		float attenuation = 1.0 / (dist * dist + 0.001);
 		vec3 radiance = LightColors[i] * attenuation;
 	
 		// cook-torrance brdf
-		float d = DistributionGGX(NdotH, Roughness);
-		float g = GeometrySmith(NdotV, NdotL, Roughness);
+		float d = DistributionGGX(NdotH, roughness);
+		float g = GeometrySmith(NdotV, NdotL, roughness);
 		vec3 f = FresnelSchlick(HdotV, f0);
         
+		vec3 specular = (d * g * f) / (4.0 * NdotV * NdotL + 0.001);
+
 		vec3 kS = f;
 		vec3 kD = vec3(1.0) - kS;
-		kD *= 1.0 - Metallic;
-
-		vec3 specular = (d * g * f) / max(4.0 * NdotV * NdotL, 0.001);
+		kD *= 1.0 - metallic;
 
 		// add to outgoing radiance Lo
 		lo += (kD * albedo / PI + specular) * radiance * NdotL; 

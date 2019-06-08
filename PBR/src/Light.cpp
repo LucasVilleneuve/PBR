@@ -33,8 +33,8 @@ void Light::draw(const glm::mat4 &view)
 	_shader.setMat4("ModelView", mview);
 	_shader.setMat3("NormalMatrix", nmat);
 
-	_shader.setFloat("Roughness", _sphere.getRoughness());
-	_shader.setFloat("Metallic", _sphere.getMetallic());
+	//_shader.setFloat("Roughness", _sphere.getRoughness());
+	//_shader.setFloat("Metallic", _sphere.getMetallic());
 
 	_sphere.draw();
 }
