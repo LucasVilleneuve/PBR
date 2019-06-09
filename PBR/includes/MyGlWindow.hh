@@ -49,9 +49,16 @@ private:
 	std::unique_ptr<SphereWall> _wall;
 	std::vector<Light> _lights;
 
-	const float DEFAULT_VIEW_POINT[3] = { 12.5, 15, 20 };
-	const float DEFAULT_VIEW_CENTER[3] = { 12.5, 12.5, 0 };
+	const float DEFAULT_VIEW_POINT[3] = { 0, 0, 5 };
+	const float DEFAULT_VIEW_CENTER[3] = { 0, 0, 0 };
 	const float DEFAULT_UP_VECTOR[3] = { 0, 1, 0 };
 
 	void init();
 };
+
+/* TODO:
+	- Remove/Change light position in the imgui window
+	- Create a simple and a textured sphere class
+	- Texture Loader
+
+*/

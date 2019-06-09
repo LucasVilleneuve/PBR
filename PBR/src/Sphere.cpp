@@ -1,13 +1,12 @@
 #include <glm/gtc/constants.hpp>
 #include <GL/glew.h>
 #include <iostream>
+#include "Stbi/stb_image.h"
+#include "TextureLoader.hh"
 #include "Sphere.hh"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "Stbi/stb_image.h"
-
-Sphere::Sphere(const std::string &textureFileName, float radius, GLuint slices, GLuint stacks)
-	: _texFileName(textureFileName), _radius(radius), _slices(slices), _stacks(stacks)
+Sphere::Sphere(Shader &shader, float radius, GLuint slices, GLuint stacks)
+	: _shader(shader), _radius(radius), _slices(slices), _stacks(stacks)
 {
 	GLuint nVerts = (slices + 1) * (stacks + 1);
 	GLuint elements = (slices * 2 * (stacks - 1)) * 3;
@@ -21,6 +20,13 @@ Sphere::Sphere(const std::string &textureFileName, float radius, GLuint slices, 
 	this->generateVertices();
 
 	this->setup();
+
+	// TODO Move this to Textured SPhere
+	//auto &texLoader = TextureLoader::getInstance();
+	//_albedo = texLoader.loadTexture("resources/rusted_iron/albedo.png")->id;
+	//_metallic = texLoader.loadTexture("resources/rusted_iron/metallic.png")->id;
+	//_roughness = texLoader.loadTexture("resources/rusted_iron/roughness.png")->id;
+	//_normal = texLoader.loadTexture("resources/rusted_iron/normal.png")->id;
 }
 
 void Sphere::generateVertices()
@@ -115,58 +121,32 @@ void Sphere::setup()
 	glBindVertexArray(0); // unbinding
 }
 
-GLuint Sphere::loadTexture(const std::string &texturePath)
+void Sphere::draw(const glm::mat4 &view)
 {
-	GLuint texId;
-	glGenTextures(1, &texId);
+	// Model
+	glm::mat4 mview = view * _model.getMatrix();
+	glm::mat4 imview = glm::inverse(mview);
+	glm::mat3 nmat = glm::mat3(glm::transpose(imview));
 
-	int width, height, channel;
-	unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &channel, 0);
-
-	if (data)
-	{
-		GLenum format;
-		if (channel == 1)
-			format = GL_RED;
-		else if (channel == 3)
-			format = GL_RGB;
-		else if (channel == 4)
-			format = GL_RGBA;
-
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, texId);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
-			GL_UNSIGNED_BYTE, data);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-		std::cout << "Texture failed to load at path: " << texturePath.c_str() << std::endl;
-	}
-
-	return texId;
-}
-
-void Sphere::draw()
-{
-	// TODO Add uniforms here
-
-	//glUniform3f(shader->uniform("Kd"), 1, 1, 1);
-	//glUniform3f(shader->uniform("Ka"), 0.3, 0.3, 0.3);
-	//glUniform3f(shader->uniform("Ks"), 0.3, 0.3, 0.3);
-	//glUniform1f(shader->uniform("shininess"), 10);
-
-	//glUniform1i(shader->uniform("Tex1"), 0);
+	_shader.setMat4("ModelView", mview);
+	_shader.setMat3("NormalMatrix", nmat);
 
 	// Activate textures
+	//_shader.setInt("AlbedoMap", 0);
+	//_shader.setInt("NormalMap", 1);
+	//_shader.setInt("MetallicMap", 2);
+	//_shader.setInt("RoughnessMap", 3);
 
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, _albedo);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, _normal);
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, _metallic);
+	//glActiveTexture(GL_TEXTURE3);
+	//glBindTexture(GL_TEXTURE_2D, _roughness);
+
+	// Draw
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 }

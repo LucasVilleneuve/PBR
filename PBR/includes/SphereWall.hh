@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Shader.hh"
-#include "Sphere.hh"
 #include <functional>
+#include "Shader.hh"
+#include "TexturedSphere.hh"
+#include "TextureLoader.hh"
 
 class SphereWall
 {
@@ -17,7 +18,7 @@ private:
 	const int NB_ROWS = 3;
 
 	Shader &_shader;
-	std::vector<Sphere> _wall;
+	std::vector<TexturedSphere> _wall;
 	float _xSpacing = 2.5f;
 	float _ySpacing = 2.5f;
 

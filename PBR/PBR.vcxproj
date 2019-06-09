@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{214BA3C1-4713-4ED6-BDA9-87115FD41C09}</ProjectGuid>
     <RootNamespace>PBR</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -146,6 +146,8 @@
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\SphereWall.cpp" />
+    <ClCompile Include="src\TexturedSphere.cpp" />
+    <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\Viewer\Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +169,9 @@
     <ClInclude Include="includes\Sphere.hh" />
     <ClInclude Include="includes\SphereWall.hh" />
     <ClInclude Include="includes\Stbi\stb_image.h" />
+    <ClInclude Include="includes\Texture.hh" />
+    <ClInclude Include="includes\TexturedSphere.hh" />
+    <ClInclude Include="includes\TextureLoader.hh" />
     <ClInclude Include="includes\Viewer\Viewer.h" />
     <ClInclude Include="Object.hh" />
   </ItemGroup>

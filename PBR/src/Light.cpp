@@ -1,7 +1,7 @@
 #include "Light.hh"
 
 Light::Light(int number, Shader &shader, glm::vec3 position, glm::vec3 color)
-	: _number(number), _shader(shader), _sphere("", 1)
+	: _number(number), _shader(shader), _sphere(shader, 1)
 {
 	this->setPosition(position);
 	this->setColor(color);
@@ -24,17 +24,9 @@ void Light::draw(const glm::mat4 &view)
 	_shader.setVec3("LightPositions[" + std::to_string(_number) + "]", pos);
 	_shader.setVec3("LightColors[" + std::to_string(_number) + "]", _color);
 
-	// Draw sphere
-	glm::mat4 mview = view * _sphere.getModel().getMatrix();
-	glm::mat4 imvp = glm::inverse(mview);
-	glm::mat3 nmat = glm::mat3(glm::transpose(imvp));
-
-	//_shader->setVec3("Kd", sphere.getKd());
-	_shader.setMat4("ModelView", mview);
-	_shader.setMat3("NormalMatrix", nmat);
-
 	//_shader.setFloat("Roughness", _sphere.getRoughness());
 	//_shader.setFloat("Metallic", _sphere.getMetallic());
 
-	_sphere.draw();
+	// Draw sphere
+	_sphere.draw(view);
 }

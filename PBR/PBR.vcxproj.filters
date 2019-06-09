@@ -81,6 +81,12 @@
     <ClCompile Include="src\FBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\TextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TexturedSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -141,6 +147,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\FBO.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\TextureLoader.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Texture.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\TexturedSphere.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
