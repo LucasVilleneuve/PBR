@@ -25,8 +25,8 @@ MyGlWindow::~MyGlWindow() = default;
 
 void MyGlWindow::init()
 {
-	/*_pbrType = PBR_TYPE::DIRECT_LIGHT;*/
-	_pbrType = PBR_TYPE::IBL_DIFFUSE_IRRADIANCE;
+	_pbrType = PBR_TYPE::DIRECT_LIGHT;
+	/*_pbrType = PBR_TYPE::IBL_DIFFUSE_IRRADIANCE;*/
 
 	if (_pbrType == PBR_TYPE::DIRECT_LIGHT)
 		_shader = std::make_unique<Shader>("shaders/pbr.vert", "shaders/pbr.frag");
