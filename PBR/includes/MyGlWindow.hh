@@ -7,6 +7,7 @@
 #include "SphereWall.hh"
 #include "Light.hh"
 #include "Model.h"
+#include "FBO.hh"
 #include "CubeMap.hh"
 
 class MyGlWindow
@@ -23,12 +24,20 @@ public:
 	int getHeight() const { return _height; }
 	Viewer *getViewer() const { return _viewer.get(); }
 
+	enum class PBR_TYPE
+	{
+		DIRECT_LIGHT,
+		IBL_DIFFUSE_IRRADIANCE
+	};
+
 private:
 	int _width;
 	int _height;
 	std::unique_ptr<Viewer>		_viewer;
 	std::unique_ptr<Shader>		_shader;
+	std::unique_ptr<FBO>		_fbo;
 	std::unique_ptr<CubeMap>	_cubeMap;
+	PBR_TYPE					_pbrType;
 	float bkgColor[3] = { 0.2f, 0.2f, 0.2f };
 
 public:

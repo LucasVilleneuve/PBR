@@ -2,6 +2,7 @@
 
 #include "Shader.hh"
 #include "Sphere.hh"
+#include <functional>
 
 class SphereWall
 {
@@ -9,7 +10,7 @@ public:
 	SphereWall(Shader &shader);
 	~SphereWall() = default;
 
-	void draw(const glm::mat4 &view);
+	void draw(const glm::mat4 &view, const std::function<void()> &addTextures);
 
 private:
 	const int NB_COLUMNS = 3;

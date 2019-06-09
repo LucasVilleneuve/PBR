@@ -15,6 +15,7 @@ MyGlWindow::MyGlWindow(int width, int height)
 
 	float aspect = (width / (float)height);
 	_viewer = std::make_unique<Viewer>(viewPoint, viewCenter, upVector, 45.0f, aspect);
+	_fbo = std::make_unique<FBO>();
 	_cubeMap = std::make_unique<CubeMap>();
 
 	this->init();
@@ -24,7 +25,13 @@ MyGlWindow::~MyGlWindow() = default;
 
 void MyGlWindow::init()
 {
-	_shader = std::make_unique<Shader>("shaders/pbr.vert", "shaders/pbr.frag");
+	/*_pbrType = PBR_TYPE::DIRECT_LIGHT;*/
+	_pbrType = PBR_TYPE::IBL_DIFFUSE_IRRADIANCE;
+
+	if (_pbrType == PBR_TYPE::DIRECT_LIGHT)
+		_shader = std::make_unique<Shader>("shaders/pbr.vert", "shaders/pbr.frag");
+	else if (_pbrType == PBR_TYPE::IBL_DIFFUSE_IRRADIANCE)
+		_shader = std::make_unique<Shader>("shaders/pbr.vert", "shaders/pbrDiffuseIrradiance.frag");
 
 	_wall = std::make_unique<SphereWall>(*_shader);
 
@@ -63,7 +70,14 @@ void MyGlWindow::init()
 	//_shader->setVec3("Ks", glm::vec3(1.0, 1.0, 1.0));
 	//_shader->setFloat("shininess", 12.0);
 	_shader->disable();
-	_cubeMap->drawOnFBO();
+	_cubeMap->setup(_fbo->getFBO(), _fbo->getRBO());
+	_cubeMap->createCubeMap();
+	_cubeMap->preComputeIrradiance();
+	if (_pbrType == PBR_TYPE::IBL_DIFFUSE_IRRADIANCE)
+	{
+		_shader->addUniform("irradianceMap");
+		_shader->setInt("irradianceMap", 4);
+	}
 }
 
 void MyGlWindow::resize(int width, int height)
@@ -104,7 +118,15 @@ void MyGlWindow::draw()
 	_shader->setMat4("Projection", projection);
 	_shader->setVec3("CamPos", glm::mat3(view) * eye); // TODO Should we multiply by the view matrix ?
 
-	_wall->draw(view);
+	auto addTextures = [this]() {
+		if (_pbrType == PBR_TYPE::IBL_DIFFUSE_IRRADIANCE)
+		{
+			glActiveTexture(GL_TEXTURE4);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap->getIrradianceMap());
+		}
+	};
+
+	_wall->draw(view, addTextures);
 
 	for (Light &light : _lights)
 	{

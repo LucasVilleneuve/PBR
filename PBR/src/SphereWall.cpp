@@ -34,7 +34,7 @@ SphereWall::SphereWall(Shader &shader)
 	}
 }
 
-void SphereWall::draw(const glm::mat4 &view)
+void SphereWall::draw(const glm::mat4 &view, const std::function<void()> &addTextures)
 {
 	glm::mat4 mview;
 	glm::mat4 imvp;
@@ -52,6 +52,7 @@ void SphereWall::draw(const glm::mat4 &view)
 	glBindTexture(GL_TEXTURE_2D, metallic);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, roughness);
+	addTextures();
 
 	for (auto sphere : _wall)
 	{

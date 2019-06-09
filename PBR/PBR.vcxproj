@@ -131,7 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -139,6 +138,8 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Cube.cpp" />
+    <ClCompile Include="src\CubeMap.cpp" />
+    <ClCompile Include="src\FBO.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\MyGlWindow.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -148,7 +149,6 @@
     <ClCompile Include="src\Viewer\Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CubeMap.hh" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -158,6 +158,8 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="includes\Cube.hh" />
+    <ClInclude Include="includes\CubeMap.hh" />
+    <ClInclude Include="includes\FBO.hh" />
     <ClInclude Include="includes\Light.hh" />
     <ClInclude Include="includes\Model.h" />
     <ClInclude Include="includes\MyGlWindow.hh" />
@@ -173,8 +175,10 @@
     <None Include="shaders\background.vert" />
     <None Include="shaders\cubeMap.frag" />
     <None Include="shaders\cubeMap.vert" />
+    <None Include="shaders\irradiance.frag" />
     <None Include="shaders\pbr.frag" />
     <None Include="shaders\pbr.vert" />
+    <None Include="shaders\pbrDiffuseIrradiance.frag" />
     <None Include="shaders\phong.frag" />
     <None Include="shaders\phong.vert" />
   </ItemGroup>

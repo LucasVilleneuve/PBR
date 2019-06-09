@@ -72,10 +72,13 @@
     <ClCompile Include="src\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CubeMap.cpp">
+    <ClCompile Include="src\Cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Cube.cpp">
+    <ClCompile Include="src\CubeMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,10 +134,13 @@
     <ClInclude Include="includes\Light.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CubeMap.hh">
+    <ClInclude Include="includes\Cube.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Cube.hh">
+    <ClInclude Include="includes\CubeMap.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\FBO.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -161,6 +167,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\background.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\irradiance.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\pbrDiffuseIrradiance.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
