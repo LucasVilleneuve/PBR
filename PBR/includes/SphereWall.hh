@@ -3,6 +3,7 @@
 #include <functional>
 #include "Shader.hh"
 #include "TexturedSphere.hh"
+#include "SimpleSphere.hh"
 #include "TextureLoader.hh"
 
 class SphereWall

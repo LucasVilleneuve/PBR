@@ -143,6 +143,7 @@
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\MyGlWindow.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\SimpleSphere.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\SphereWall.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="includes\Model.h" />
     <ClInclude Include="includes\MyGlWindow.hh" />
     <ClInclude Include="includes\Shader.hh" />
+    <ClInclude Include="includes\SimpleSphere.hh" />
     <ClInclude Include="includes\Sphere.hh" />
     <ClInclude Include="includes\SphereWall.hh" />
     <ClInclude Include="includes\Stbi\stb_image.h" />

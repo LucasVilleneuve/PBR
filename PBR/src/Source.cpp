@@ -162,6 +162,7 @@ int main(int, char**)
 	float lightPos[3] = { win->lightPosition.x, win->lightPosition.y, win->lightPosition.z };
 	int lightIntensity = (int)win->lightColor.x;
 	bool gammaCorr = true;
+	bool valuesFromFile = true;
 
 	glfwSetWindowSizeCallback(window, window_size_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
@@ -193,6 +194,11 @@ int main(int, char**)
 			ImGui::Checkbox("Gamma Correction", &gammaCorr);
 			{
 				win->gammaCorr = gammaCorr;
+			}
+
+			ImGui::Checkbox("Value from textures (Roughness/Metallic/Normal)", &valuesFromFile);
+			{
+				win->valuesFromFile = valuesFromFile;
 			}
 
 			ImGui::End();

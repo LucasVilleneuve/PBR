@@ -14,6 +14,7 @@ uniform vec3 CamPos;
 uniform float Roughness;
 uniform float Metallic;
 uniform bool GammaCorr;
+uniform bool ValuesFromFile;
 uniform sampler2D AlbedoMap;
 uniform sampler2D NormalMap;
 uniform sampler2D MetallicMap;
@@ -25,21 +26,29 @@ out vec4 finalColor;
 const float PI = 3.1415926535897932384626433832795;
 const float GAMMA = 2.2;
 
-vec3 GetNormalFromNormalMap()
+vec3 GetNormal()
 {
-    vec3 tangentNormal = texture(NormalMap, TexCoords).xyz * 2.0 - 1.0;
+	if (ValuesFromFile)
+	{
+		// Get Normal from NormalMap
+		vec3 tangentNormal = texture(NormalMap, TexCoords).xyz * 2.0 - 1.0;
 
-    vec3 Q1  = dFdx(Position);
-    vec3 Q2  = dFdy(Position);
-    vec2 st1 = dFdx(TexCoords);
-    vec2 st2 = dFdy(TexCoords);
+		vec3 Q1  = dFdx(Position);
+		vec3 Q2  = dFdy(Position);
+		vec2 st1 = dFdx(TexCoords);
+		vec2 st2 = dFdy(TexCoords);
 
-    vec3 N   = normalize(Normal);
-    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
-    vec3 B  = -normalize(cross(N, T));
-    mat3 TBN = mat3(T, B, N);
+		vec3 N   = normalize(Normal);
+		vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+		vec3 B  = -normalize(cross(N, T));
+		mat3 TBN = mat3(T, B, N);
 
-    return normalize(TBN * tangentNormal);
+		return normalize(TBN * tangentNormal);
+	}
+	else
+	{
+		return normalize(Normal);
+	}
 }
 
 vec3 FresnelSchlick(float cosTheta, vec3 f0)
@@ -84,16 +93,37 @@ vec3 GammaCorrection(vec3 color)
 	return pow(color, vec3(1.0 / GAMMA)); 
 }
 
+float GetRoughness()
+{
+	if (ValuesFromFile)
+		return texture(RoughnessMap, TexCoords).r;
+	else
+		return Roughness;
+}
+
+float GetMetallic()
+{
+	if (ValuesFromFile)
+		return texture(MetallicMap, TexCoords).r;
+	else
+		return Metallic;
+}
+
+vec3 GetAlbedo()
+{
+	if (ValuesFromFile)
+		return pow(texture(AlbedoMap, TexCoords).rgb, vec3(GAMMA));
+	else
+		return vec3(0.5, 0, 0);
+}
+
 void main()
 {
-	vec3 albedo = pow(texture(AlbedoMap, TexCoords).rgb, vec3(GAMMA));
-    vec3 normal = GetNormalFromNormalMap();
-	float metallic = texture(MetallicMap, TexCoords).r;
-    float roughness = texture(RoughnessMap, TexCoords).r;
+	vec3 albedo = GetAlbedo();
+    vec3 normal = GetNormal();
+	float metallic = GetMetallic();
+    float roughness = GetRoughness();
 //    float ao        = texture(aoMap, TexCoords).r;
-
-//	float metallic = Metallic;
-//	float roughness = Roughness;
 
 	vec3 N = normalize(normal);
 	vec3 V = normalize(CamPos - Position);

@@ -10,6 +10,9 @@
 #include "FBO.hh"
 #include "CubeMap.hh"
 
+/* TODO:
+	- Remove/Change light position in the imgui window
+*/
 class MyGlWindow
 {
 public:
@@ -45,6 +48,7 @@ public:
 	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, 30); // TODO Deprecated
 	glm::vec3 lightColor = glm::vec3(1000.0f);
 	bool gammaCorr = false;
+	bool valuesFromFile = true;
 private:
 	std::unique_ptr<SphereWall> _wall;
 	std::vector<Light> _lights;
@@ -55,10 +59,3 @@ private:
 
 	void init();
 };
-
-/* TODO:
-	- Remove/Change light position in the imgui window
-	- Create a simple and a textured sphere class
-	- Texture Loader
-
-*/

@@ -59,6 +59,7 @@ void MyGlWindow::init()
 	_shader->addUniform("CamPos");
 
 	_shader->addUniform("GammaCorr");
+	_shader->addUniform("ValuesFromFile");
 
 	for (int i = 0; i < _lights.size(); ++i)
 	{
@@ -135,6 +136,7 @@ void MyGlWindow::draw()
 	}
 
 	_shader->setBool("GammaCorr", gammaCorr);
+	_shader->setBool("ValuesFromFile", valuesFromFile);
 
 	_shader->disable();
 
