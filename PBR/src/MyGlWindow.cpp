@@ -26,7 +26,7 @@ MyGlWindow::~MyGlWindow() = default;
 void MyGlWindow::init()
 {
 	_pbrType = PBR_TYPE::DIRECT_LIGHT;
-	/*_pbrType = PBR_TYPE::IBL_DIFFUSE_IRRADIANCE;*/
+	_pbrType = PBR_TYPE::IBL_DIFFUSE_IRRADIANCE;
 
 	if (_pbrType == PBR_TYPE::DIRECT_LIGHT)
 		_shader = std::make_unique<Shader>("shaders/pbr.vert", "shaders/pbr.frag");
@@ -77,7 +77,6 @@ void MyGlWindow::init()
 	if (_pbrType == PBR_TYPE::IBL_DIFFUSE_IRRADIANCE)
 	{
 		_shader->addUniform("irradianceMap");
-		_shader->setInt("irradianceMap", 4);
 	}
 }
 
@@ -122,7 +121,14 @@ void MyGlWindow::draw()
 	auto addTextures = [this]() {
 		if (_pbrType == PBR_TYPE::IBL_DIFFUSE_IRRADIANCE)
 		{
-			glActiveTexture(GL_TEXTURE4);
+			if (valuesFromFile) {
+				_shader->setInt("irradianceMap", 4);
+				glActiveTexture(GL_TEXTURE4);
+			}
+			else {
+				_shader->setInt("irradianceMap", 0);
+				glActiveTexture(GL_TEXTURE0);
+			}
 			glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeMap->getIrradianceMap());
 		}
 	};

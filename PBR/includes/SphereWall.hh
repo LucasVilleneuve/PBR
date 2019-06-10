@@ -20,6 +20,7 @@ private:
 
 	Shader &_shader;
 	std::vector<TexturedSphere> _wall;
+	/*std::vector<SimpleSphere> _wall;*/
 	float _xSpacing = 2.5f;
 	float _ySpacing = 2.5f;
 

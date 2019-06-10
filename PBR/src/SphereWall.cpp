@@ -17,8 +17,8 @@ SphereWall::SphereWall(Shader &shader)
 		{
 			float xPos = _xSpacing * (x % NB_COLUMNS);
 
-			TexturedSphere sphere("resources/plastic/", _shader, 1);
-			//SimpleSphere sphere(_shader, roughness, metallic, 1);
+			TexturedSphere sphere("resources/rusted_iron/", _shader, 1);
+			/*SimpleSphere sphere(_shader, roughness, metallic, 1);*/
 
 			// Setting Model
 			Model model = sphere.getModel();
