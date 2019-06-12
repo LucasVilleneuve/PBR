@@ -9,24 +9,17 @@
 class SphereWall
 {
 public:
-	SphereWall(Shader &shader);
+	SphereWall();
 	~SphereWall() = default;
 
-	void draw(const glm::mat4 &view, const std::function<void()> &addTextures);
+	void draw(Shader &shader, const glm::mat4 &view, const std::function<void()> &addTextures);
 
 private:
 	const int NB_COLUMNS = 3;
 	const int NB_ROWS = 3;
 
-	Shader &_shader;
-	std::vector<TexturedSphere> _wall;
-	/*std::vector<SimpleSphere> _wall;*/
+	//std::vector<TexturedSphere> _wall;
+	std::vector<SimpleSphere> _wall;
 	float _xSpacing = 2.5f;
 	float _ySpacing = 2.5f;
-
-	// TODO Change that
-	GLuint albedo;
-	GLuint metallic;
-	GLuint roughness;
-	GLuint normal;
 };

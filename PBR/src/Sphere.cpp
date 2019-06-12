@@ -5,8 +5,8 @@
 #include "TextureLoader.hh"
 #include "Sphere.hh"
 
-Sphere::Sphere(Shader &shader, float radius, GLuint slices, GLuint stacks)
-	: _shader(shader), _radius(radius), _slices(slices), _stacks(stacks)
+Sphere::Sphere(float radius, GLuint slices, GLuint stacks)
+	: _radius(radius), _slices(slices), _stacks(stacks)
 {
 	GLuint nVerts = (slices + 1) * (stacks + 1);
 	GLuint elements = (slices * 2 * (stacks - 1)) * 3;
@@ -20,13 +20,6 @@ Sphere::Sphere(Shader &shader, float radius, GLuint slices, GLuint stacks)
 	this->generateVertices();
 
 	this->setup();
-
-	// TODO Move this to Textured SPhere
-	//auto &texLoader = TextureLoader::getInstance();
-	//_albedo = texLoader.loadTexture("resources/rusted_iron/albedo.png")->id;
-	//_metallic = texLoader.loadTexture("resources/rusted_iron/metallic.png")->id;
-	//_roughness = texLoader.loadTexture("resources/rusted_iron/roughness.png")->id;
-	//_normal = texLoader.loadTexture("resources/rusted_iron/normal.png")->id;
 }
 
 void Sphere::generateVertices()
@@ -121,30 +114,15 @@ void Sphere::setup()
 	glBindVertexArray(0); // unbinding
 }
 
-void Sphere::draw(const glm::mat4 &view)
+void Sphere::draw(Shader &shader, const glm::mat4 &view)
 {
 	// Model
 	glm::mat4 mview = view * _model.getMatrix();
 	glm::mat4 imview = glm::inverse(mview);
 	glm::mat3 nmat = glm::mat3(glm::transpose(imview));
 
-	_shader.setMat4("ModelView", mview);
-	_shader.setMat3("NormalMatrix", nmat);
-
-	// Activate textures
-	//_shader.setInt("AlbedoMap", 0);
-	//_shader.setInt("NormalMap", 1);
-	//_shader.setInt("MetallicMap", 2);
-	//_shader.setInt("RoughnessMap", 3);
-
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, _albedo);
-	//glActiveTexture(GL_TEXTURE1);
-	//glBindTexture(GL_TEXTURE_2D, _normal);
-	//glActiveTexture(GL_TEXTURE2);
-	//glBindTexture(GL_TEXTURE_2D, _metallic);
-	//glActiveTexture(GL_TEXTURE3);
-	//glBindTexture(GL_TEXTURE_2D, _roughness);
+	shader.setMat4("ModelView", mview);
+	shader.setMat3("NormalMatrix", nmat);
 
 	// Draw
 	glBindVertexArray(_vao);

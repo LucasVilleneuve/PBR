@@ -114,7 +114,7 @@ vec3 GetAlbedo()
 	if (ValuesFromFile)
 		return pow(texture(AlbedoMap, TexCoords).rgb, vec3(GAMMA));
 	else
-		return vec3(0.5, 0, 0);
+		return vec3(0.8, 0, 0);
 }
 
 void main()
@@ -124,13 +124,12 @@ void main()
 	float metallic = GetMetallic();
     float roughness = GetRoughness();
 //    float ao        = texture(aoMap, TexCoords).r;
+	float ao = 1.0;
 
 	vec3 N = normalize(normal);
 	vec3 V = normalize(CamPos - Position);
 	float NdotV = max(dot(N, V), 0.0);
 
-//	vec3 albedo = vec3(0.8, 0.0, 0.0);
-	float ao = 1.0;
 
 	vec3 f0 = vec3(0.04);
 	f0 = mix(f0, albedo, metallic);

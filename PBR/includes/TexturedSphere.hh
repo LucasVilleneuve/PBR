@@ -5,15 +5,11 @@
 class TexturedSphere : public Sphere
 {
 public:
-	TexturedSphere(const std::string &texturesPath, Shader &shader,
+	TexturedSphere(const std::string &texturesPath,
 		float radius, GLuint slices = 64, GLuint stacks = 64);
 	~TexturedSphere() = default;
 
-	void draw(const glm::mat4 &view);
-
-	// TODO Deprecated
-	//void setRoughness(float roughness) { _roughness = glm::clamp(roughness, 0.025f, 1.0f); }
-	//void setMetallic(float metallic) { _metallic = glm::clamp(metallic, 0.0f, 1.0f); }
+	void draw(Shader &shader, const glm::mat4 &view);
 
 	GLuint getAlbedo() const { return _albedo; }
 	void setAlbedo(GLuint albedo) { _albedo = albedo; }
@@ -26,8 +22,6 @@ public:
 
 private:
 	/* Parameters */
-	//float _roughness; // TODO Deprecated
-	//float _metallic; // TODO Deprecated
 	GLuint _albedo;
 	GLuint _roughness;
 	GLuint _metallic;

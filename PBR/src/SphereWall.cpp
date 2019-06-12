@@ -1,7 +1,6 @@
 #include "SphereWall.hh"
 
-SphereWall::SphereWall(Shader &shader)
-	: _shader(shader)
+SphereWall::SphereWall()
 {
 	float metallic = 0.0;
 
@@ -17,8 +16,8 @@ SphereWall::SphereWall(Shader &shader)
 		{
 			float xPos = _xSpacing * (x % NB_COLUMNS);
 
-			TexturedSphere sphere("resources/rusted_iron/", _shader, 1);
-			/*SimpleSphere sphere(_shader, roughness, metallic, 1);*/
+			//TexturedSphere sphere("resources/wall/", 1);
+			SimpleSphere sphere(roughness, metallic, 1);
 
 			// Setting Model
 			Model model = sphere.getModel();
@@ -35,13 +34,13 @@ SphereWall::SphereWall(Shader &shader)
 	}
 }
 
-void SphereWall::draw(const glm::mat4 &view, const std::function<void()> &addTextures)
+void SphereWall::draw(Shader &shader, const glm::mat4 &view, const std::function<void()> &addTextures)
 {
 	addTextures();
 
 	for (auto sphere : _wall)
 	{
-		sphere.draw(view);
+		sphere.draw(shader, view);
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);  //de-activate

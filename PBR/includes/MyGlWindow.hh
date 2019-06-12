@@ -10,9 +10,6 @@
 #include "FBO.hh"
 #include "CubeMap.hh"
 
-/* TODO:
-	- Remove/Change light position in the imgui window
-*/
 class MyGlWindow
 {
 public:
@@ -22,6 +19,7 @@ public:
 	void draw();
 	void resize(int width, int height);
 	void setAspect(float aspectRatio);
+	void switchPbrType(bool ibl);
 
 	int getWidth() const { return _width; }
 	int getHeight() const { return _height; }
@@ -38,6 +36,8 @@ private:
 	int _height;
 	std::unique_ptr<Viewer>		_viewer;
 	std::unique_ptr<Shader>		_shader;
+	std::unique_ptr<Shader>		_shaderibl;
+	Shader						*_currentShader = nullptr;
 	std::unique_ptr<FBO>		_fbo;
 	std::unique_ptr<CubeMap>	_cubeMap;
 	PBR_TYPE					_pbrType;
@@ -45,10 +45,11 @@ private:
 
 public:
 	// TODO Change to private
-	glm::vec3 lightPosition = glm::vec3(12.5, 12.5, 30); // TODO Deprecated
 	glm::vec3 lightColor = glm::vec3(1000.0f);
 	bool gammaCorr = false;
 	bool valuesFromFile = true;
+	bool ibl = false;
+
 private:
 	std::unique_ptr<SphereWall> _wall;
 	std::vector<Light> _lights;
@@ -58,4 +59,5 @@ private:
 	const float DEFAULT_UP_VECTOR[3] = { 0, 1, 0 };
 
 	void init();
+	void initShader(Shader &shader);
 };

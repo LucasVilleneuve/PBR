@@ -10,11 +10,10 @@
 class Sphere
 {
 public:
-	Sphere(Shader &shader,
-		float radius, GLuint slices = 64, GLuint stacks = 64);
+	Sphere(float radius, GLuint slices = 64, GLuint stacks = 64);
 	~Sphere() = default;
 
-	void draw(const glm::mat4 &view);
+	void draw(Shader &shader, const glm::mat4 &view);
 
 	glm::vec3 getKd() const { return _kd; }
 	void setKd(glm::vec3 kd) { _kd = kd; }
@@ -23,7 +22,6 @@ public:
 
 protected:
 	/* Parameters */
-	Shader &_shader;
 	float _radius;
 	GLuint _slices;
 	GLuint _stacks;

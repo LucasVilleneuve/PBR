@@ -159,10 +159,10 @@ int main(int, char**)
 	double previousTime = glfwGetTime();
 	int frameCount = 0;
 	double lastTime = 0;
-	float lightPos[3] = { win->lightPosition.x, win->lightPosition.y, win->lightPosition.z };
 	int lightIntensity = (int)win->lightColor.x;
 	bool gammaCorr = true;
 	bool valuesFromFile = true;
+	bool ibl = false;
 
 	glfwSetWindowSizeCallback(window, window_size_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
@@ -181,11 +181,6 @@ int main(int, char**)
 		if (ImGui::Begin("Control Panel"), window_flags) {
 			//ImGui::SetWindowSize(ImVec2(400, 200));
 
-			ImGui::SliderFloat3("Light Position", lightPos, -30.0f, 30.0f, "pos = %.1f");
-			{
-				win->lightPosition = glm::vec3(lightPos[0], lightPos[1], lightPos[2]);
-			}
-
 			ImGui::SliderInt("Light Color", &lightIntensity, 0, 10000, "color = %d");
 			{
 				win->lightColor = glm::vec3(lightIntensity);
@@ -199,6 +194,11 @@ int main(int, char**)
 			ImGui::Checkbox("Value from textures (Roughness/Metallic/Normal)", &valuesFromFile);
 			{
 				win->valuesFromFile = valuesFromFile;
+			}
+
+			ImGui::Checkbox("Use IBL", &ibl);
+			{
+				win->ibl = ibl;
 			}
 
 			ImGui::End();

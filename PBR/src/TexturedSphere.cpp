@@ -5,8 +5,8 @@
 #include "TextureLoader.hh"
 #include "TexturedSphere.hh"
 
-TexturedSphere::TexturedSphere(const std::string &texturesPath, Shader &shader, float radius, GLuint slices, GLuint stacks)
-	: Sphere(shader, radius, slices, stacks)
+TexturedSphere::TexturedSphere(const std::string &texturesPath, float radius, GLuint slices, GLuint stacks)
+	: Sphere(radius, slices, stacks)
 {
 	auto &texLoader = TextureLoader::getInstance();
 	_albedo = texLoader.loadTexture(texturesPath + "/albedo.png")->id;
@@ -15,13 +15,13 @@ TexturedSphere::TexturedSphere(const std::string &texturesPath, Shader &shader, 
 	_normal = texLoader.loadTexture(texturesPath + "/normal.png")->id;
 }
 
-void TexturedSphere::draw(const glm::mat4 &view)
+void TexturedSphere::draw(Shader &shader, const glm::mat4 &view)
 {
 	// Activate textures
-	_shader.setInt("AlbedoMap", 0);
-	_shader.setInt("NormalMap", 1);
-	_shader.setInt("MetallicMap", 2);
-	_shader.setInt("RoughnessMap", 3);
+	shader.setInt("AlbedoMap", 0);
+	shader.setInt("NormalMap", 1);
+	shader.setInt("MetallicMap", 2);
+	shader.setInt("RoughnessMap", 3);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _albedo);
@@ -32,5 +32,5 @@ void TexturedSphere::draw(const glm::mat4 &view)
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, _roughness);
 
-	Sphere::draw(view);
+	Sphere::draw(shader, view);
 }

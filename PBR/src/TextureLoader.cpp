@@ -21,9 +21,6 @@ Texture *TextureLoader::loadTexture(const std::string &texturePath)
 		int width, height, channel;
 		unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &channel, 0);
 
-		std::cout << "Loaded! Null ? ";
-		std::cout << ((data == nullptr) ? "Yes" : "No") << std::endl;
-
 		if (data)
 		{
 			GLenum format = getFormat(channel);
