@@ -74,8 +74,7 @@ float GeometrySchlickGGX(float NdotV, float k)
 
 float GeometrySmith(float NdotV, float NdotL, float roughness)
 {
-	float r = roughness + 1.0;
-	float k = (r * r) / 8.0; // Direct lightning
+	float k = (roughness * roughness) / 2.0; // IBL lightning
 
     float ggx1 = GeometrySchlickGGX(NdotV, k);
     float ggx2 = GeometrySchlickGGX(NdotL, k);
